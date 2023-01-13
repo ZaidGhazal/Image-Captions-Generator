@@ -14,8 +14,19 @@ In this project, scripts are provided to download data from the [COCO dataset](h
 | model\.py          | Includes the encoder CNN and decoder RNN definition                                                         | None                                                                     |   |   |   |   |   |   |   |
 | data\_loader\.py   | Includes the methods needed to load images as batches for training/testing                                  | TBD                                                                      |   |   |   |   |   |   |   |
 
+# How to Run
+- Install requirements/CONDA env
+- run the dataset download
+- Run the training script
+- Use inference.py to predict choosen images captions
 
 
+# Tech Description
+There are important implemented functionalilties in this project to be explained:
+
+- In the `data_loader.py`, the function `get_loader()` works on creating a data loader for the training/test set files to generate batches consisting of images and the corresponding captions. 
+- In the `model.py`, the `EncoderCNN` involves transfer learning from the pre-trained ResNet50 neural netowrk to achive excellent features extraction. As usual, the last fully connected layer was removed and a new layer was added instead to be trained on the COCO images and generate the desired word embbiding vector.
+- The `DecoderRNN` architcture involves using the LSTM units to generate the captions. This netork takes the generated word embbiding vector from the `EncoderCNN` as input and predict the captions accordingly.
 
 ## 🌐 Socials:
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/https://www.linkedin.com/in/zaid-ghazal/) 
