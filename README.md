@@ -6,12 +6,13 @@
 In this project, scripts are provided to download data from the [COCO dataset](http://cocodataset.org/#home) and train a CNN-RNN model for automatically generating image captions. Also inference can be made to predict an input image captions.
 
 # Scripts
-| Script Name      | Description                                                                                               | Required Arguments                                                     |   |   |   |   |   |   |   |
-|------------------|-----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|---|---|---|---|---|---|---|
-| data_download.py | When run, the COCO training and validation (test) dataset files will be downloaded in the specified path  | Dataset Path (str): Path to save the downloaded images and annotations |   
-| train.py         | When run, the neural networks will start training. The final model will be saved in the specified path    | Model Path (str): Path to save the train neural network                |   
-| inference.py     | --                                                                                                        | --                                                                     |   
-| model.py         | Includes the encoder CNN and decoder RNN definition                                                       | None                                                                   |   
+| Script Name        | Description                                                                                                 | Required Arguments                                                       |   |   |   |   |   |   |   |
+|--------------------|-------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|---|---|---|---|---|---|---|
+| data\_download\.py | When run, the COCO training and validation \(test\) dataset files will be downloaded in the specified path  | Dataset Path \(str\): Path to save the downloaded images and annotations |   |   |   |   |   |   |   |
+| train\.py          | When run, the neural networks will start training\. The final model will be saved in the specified path     | Model Path \(str\): Path to save the train neural network                |   |   |   |   |   |   |   |
+| inference\.py      | TBD                                                                                                         | TBD                                                                      |   |   |   |   |   |   |   |
+| model\.py          | Includes the encoder CNN and decoder RNN definition                                                         | None                                                                     |   |   |   |   |   |   |   |
+| data\_loader\.py   | Includes the methods needed to load images as batches for training/testing                                  | TBD                                                                      |   |   |   |   |   |   |   |
 
 
 
