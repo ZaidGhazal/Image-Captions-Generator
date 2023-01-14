@@ -3,10 +3,11 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python==3.8
+  - python=3.8
   - pip:
       - scikit-image
       - matplotlib
+      - ipykernel
       - numpy
       - nltk
       - torch
