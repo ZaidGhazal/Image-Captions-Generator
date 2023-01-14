@@ -178,7 +178,8 @@ class Model:
                 optimizer.step()
                     
                 # Get training statistics.
-                stats = 'Epoch [%d/%d], Step [%d/%d], Loss: %.4f, Perplexity: %5.4f' % (epoch, num_epochs, i_step, total_step, loss.item(), np.exp(loss.item()))
+                stats = 'Epoch [%d/%d], Step [%d/%d], Loss: %.4f, Perplexity: %5.4f' % (epoch, 
+                self.num_epochs, i_step, total_step, loss.item(), np.exp(loss.item()))
                 
                 # Print training statistics (on same line).
                 print('\r' + stats, end="")
