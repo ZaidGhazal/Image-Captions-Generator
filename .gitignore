@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 opt
-
+models
+cocoapi
