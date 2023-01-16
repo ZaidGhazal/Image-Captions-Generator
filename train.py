@@ -33,6 +33,7 @@ class Model:
 
     This class contains methods for training a CNN-RNN model for image captioning.
     The class initializes with the following default parameters:
+    saving_directory = "./models" # Path to save the trained models
     batch_size = 128, # batch size
     vocab_threshold = 8, # minimum word count threshold
     embed_size = 300, # dimensionality of image and word embeddings
@@ -54,6 +55,7 @@ class Model:
 
 
     def __init__(self,
+                        models_saving_directory: str = "./models",  # Path to save the trained models
                         batch_size: int = 128,         # batch size
                         vocab_threshold: int = 8,        # minimum word count threshold
                         embed_size: int = 300,           # dimensionality of image and word embeddings
@@ -63,6 +65,7 @@ class Model:
                         print_every: int= 100,          # determines window for printing average loss
                         log_file: str = 'training_log.txt',       # name of file with saved training loss and perplexity
                 ):
+        self.saving_directory = models_saving_directory
         self.batch_size = batch_size
         self.vocab_threshold = vocab_threshold
         self.embed_size = embed_size
@@ -195,8 +198,8 @@ class Model:
                     
             # Save the weights.
             if epoch % self.save_every == 0:
-                torch.save(decoder.state_dict(), os.path.join('./models', 'decoder-%d.pkl' % epoch))
-                torch.save(encoder.state_dict(), os.path.join('./models', 'encoder-%d.pkl' % epoch))
+                torch.save(decoder.state_dict(), os.path.join(self.saving_directory, 'decoder.pkl' % epoch))
+                torch.save(encoder.state_dict(), os.path.join(self.saving_directory, 'encoder.pkl' % epoch))
 
         # Close the training log file.
         f.close()
