@@ -1,7 +1,5 @@
 import sys
 import os
-from tkinter import filedialog
-import tkinter
 from model import EncoderCNN, DecoderRNN
 from pycocotools.coco import COCO
 from data_loader import get_loader
@@ -9,32 +7,47 @@ from torchvision import transforms
 import torch
 from PIL import Image, ImageTk
 import numpy as np
+import yaml
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
+# read the embed_size and hidden_size from config.yml
+file_directory = os.path.realpath(__file__).rsplit("/",1)[0]
+path_to_models = os.path.join(file_directory, "models")
+path_to_models = '"' + path_to_models + '"' 
+path_to_config = os.path.join(file_directory, "config.yaml")
+
+with open(path_to_config, "r") as stream:
+    try:
+        net_config = yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+        print(exc)
+
+embed_size = net_config["embed_size"]
+hidden_size = net_config["hidden_size"]
+new_img_size = net_config["new_img_size"]
+
 # Define a transform to pre-process the testing images.
 transform_test = transforms.Compose([ 
-    transforms.Resize((224,224)),                          # smaller edge of image resized to 256
+    transforms.Resize((new_img_size,new_img_size)),                          # smaller edge of image resized to 256
     transforms.ToTensor(),                           # convert the PIL Image to a tensor
     transforms.Normalize((0.485, 0.456, 0.406),      # normalize image for pre-trained model
                          (0.229, 0.224, 0.225))])
-# # Create the data loader.
-# # Check if the file ./vocab.pkl exists
-# path="vocab.pkl"
-# isExist = os.path.exists(path)
 
-# if isExist:
-#     data_loader = get_loader(transform=transform_test,    
-#                             mode='test')
-# else:
-#     raise FileNotFoundError(f"The {path} file is not found. This file is created when the models were trained.")
+
+# Create data_loader.
+vocab_file_path = os.path.join(path_to_models, "vocab.pkl")
+data_loader = get_loader(transform=transform_test,    
+                         mode='test',
+                         vocab_file=vocab_file_path
+                         )
 
 
 class Inference:
 
-    def __init__(self, models_saving_directory: str, 
-    embed_size: int, hidden_size: int
-    ):
+    def __init__(self):
         
         # The size of the vocabulary.
         vocab_size = len(data_loader.dataset.vocab)
@@ -46,8 +59,8 @@ class Inference:
         decoder.eval()
 
         # Load the trained weights.
-        encoder.load_state_dict(torch.load(os.path.join(models_saving_directory, 'encoder.pkl')))
-        decoder.load_state_dict(torch.load(os.path.join(models_saving_directory, 'decoder.pkl')))
+        encoder.load_state_dict(torch.load(os.path.join(path_to_models, 'encoder.pkl')))
+        decoder.load_state_dict(torch.load(os.path.join(path_to_models, 'decoder.pkl')))
 
         # Move models to GPU if CUDA is available.
         encoder.to(device)
