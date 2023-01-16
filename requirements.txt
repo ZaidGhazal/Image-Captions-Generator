@@ -92,3 +92,4 @@ validators==0.20.0
 wcwidth==0.2.6
 zipp==3.11.0
 blinker==1.5
+pyyaml
