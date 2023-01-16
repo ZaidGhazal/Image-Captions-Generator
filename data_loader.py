@@ -11,10 +11,10 @@ import random
 import json
 
 def get_loader(transform,
+               vocab_file,
                mode='train',
                batch_size=1,
-               vocab_threshold=None,
-               vocab_file='./vocab.pkl',
+               vocab_threshold=None, 
                start_word="<start>",
                end_word="<end>",
                unk_word="<unk>",
