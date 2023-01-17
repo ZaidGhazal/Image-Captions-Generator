@@ -43,14 +43,14 @@ def get_loader(transform,
     # Based on mode (train, val, test), obtain img_folder and annotations_file.
     if mode == 'train':
         if vocab_from_file==True: assert os.path.exists(vocab_file), "vocab_file does not exist.  Change vocab_from_file to False to create vocab_file."
-        img_folder = 'cocoapi/images/train2014/'
-        annotations_file = 'cocoapi/annotations/captions_train2014.json'
+        img_folder = './cocoapi/images/train2014/'
+        annotations_file = './cocoapi/annotations/captions_train2014.json'
     if mode == 'test':
         assert batch_size==1, "Please change batch_size to 1 if testing your model."
         assert os.path.exists(vocab_file), "Must first generate vocab.pkl from training data."
         assert vocab_from_file==True, "Change vocab_from_file to True."
-        img_folder = 'cocoapi/images/test2014/'
-        annotations_file = 'cocoapi/annotations/image_info_test2014.json'
+        img_folder = './cocoapi/images/test2014/'
+        annotations_file = './cocoapi/annotations/image_info_test2014.json'
 
     # COCO caption dataset.
     dataset = CoCoDataset(transform=transform,
