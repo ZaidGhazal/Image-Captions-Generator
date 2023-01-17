@@ -1,3 +1,4 @@
+import pickle
 import sys
 import os
 from model import EncoderCNN, DecoderRNN
@@ -16,8 +17,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # read the embed_size and hidden_size from config.yml
 file_directory = os.path.realpath(__file__).rsplit("/",1)[0]
 path_to_models = os.path.join(file_directory, "models")
-path_to_models = '"' + path_to_models + '"' 
-path_to_config = os.path.join(file_directory, "config.yaml")
+# path_to_models = '"' + path_to_models + '"' 
+path_to_config = os.path.join(path_to_models, "config.yaml")
+# path_to_config = '"' + path_to_config + '"'
 
 with open(path_to_config, "r") as stream:
     try:
@@ -37,12 +39,11 @@ transform_test = transforms.Compose([
                          (0.229, 0.224, 0.225))])
 
 
-# Create data_loader.
+# Load the vocab file
 vocab_file_path = os.path.join(path_to_models, "vocab.pkl")
-data_loader = get_loader(transform=transform_test,    
-                         mode='test',
-                         vocab_file=vocab_file_path
-                         )
+with open(vocab_file_path, "rb") as file:
+    vocab = pickle.load(file)
+
 
 
 class Inference:
@@ -50,7 +51,7 @@ class Inference:
     def __init__(self):
         
         # The size of the vocabulary.
-        vocab_size = len(data_loader.dataset.vocab)
+        vocab_size = len(vocab)
 
         # # Initialize the encoder and decoder, and set each to inference mode.
         encoder = EncoderCNN(embed_size)
@@ -73,7 +74,7 @@ class Inference:
     def clean_sentence(output):
         sentence = ''
         for x in output:
-            sentence = sentence + ' ' + data_loader.dataset.vocab.idx2word[x]
+            sentence = sentence + ' ' + vocab.idx2word[x]
             sentence = sentence.strip()
             sentence = sentence.replace("<start>", "")
             sentence = sentence.replace("<end>", "")
@@ -140,3 +141,10 @@ class Inference:
         print(sentence)
         return PIL_image , sentence
 
+def run_inference(imgs_path):
+        inference = Inference()
+        resukts_list = []
+        for path in imgs_path:
+            img, caption = inference.generate_caption(path)
+            resukts_list.append((img, caption))
+        return resukts_list

@@ -1,10 +1,11 @@
 from typing import Any
+
+import yaml
 from model import EncoderCNN, DecoderRNN
 from data_loader import get_loader
 import sys
 import os
 import time
-sys.path.append('/opt/cocoapi/PythonAPI')
 from pycocotools.coco import COCO
 import nltk
 nltk.download('punkt')
@@ -18,14 +19,18 @@ import torch.utils.data as data
 import numpy as np
 
 
+
+image_new_size = 224
 # Define a transform to pre-process the training images.
 transform_train = transforms.Compose([ 
     transforms.Resize(256),                          # smaller edge of image resized to 256
-    transforms.RandomCrop(224),                      # get 224x224 crop from random location
+    transforms.RandomCrop(image_new_size),                      # get 224x224 crop from random location
     transforms.RandomHorizontalFlip(),               # horizontally flip image with probability=0.5
     transforms.ToTensor(),                           # convert the PIL Image to a tensor
     transforms.Normalize((0.485, 0.456, 0.406),      # normalize image for pre-trained model
                          (0.229, 0.224, 0.225))])
+
+saving_directory = "./models"
 
 class Model:
     """
@@ -55,7 +60,6 @@ class Model:
 
 
     def __init__(self,
-                        models_saving_directory: str = "./models",  # Path to save the trained models
                         batch_size: int = 128,         # batch size
                         vocab_threshold: int = 8,        # minimum word count threshold
                         embed_size: int = 300,           # dimensionality of image and word embeddings
@@ -63,7 +67,8 @@ class Model:
                         num_epochs: int = 2,            # number of training epochs
                         save_every: int = 1,             # determines frequency of saving model weights
                         print_every: int= 100,          # determines window for printing average loss
-                        log_file: str = 'training_log.txt',       # name of file with saved training loss and perplexity
+                        log_file: str = 'training_log.txt', 
+                        models_saving_directory: str = "./models" # Path to save the trained models
                 ):
         self.saving_directory = models_saving_directory
         self.batch_size = batch_size
@@ -74,10 +79,11 @@ class Model:
         self.save_every = save_every
         self.print_every = print_every
         self.log_file = log_file
+        self.vocab_saving_path = os.path.join(self.saving_directory, 'vocab.pkl')
 
        
     @staticmethod
-    def get_data_loader(batch_size: int, vocab_threshold: int) -> Any:
+    def get_data_loader(batch_size: int, vocab_threshold: int, vocab_saving_path: str) -> Any:
         """
         This function is a static method that obtains the data loader for the model.
 
@@ -93,6 +99,7 @@ class Model:
         data_loader = get_loader(transform=transform_train,
                                 mode='train',
                                 batch_size=batch_size,
+                                vocab_file=vocab_saving_path,
                                 vocab_threshold=vocab_threshold,
                                 vocab_from_file=False)
 
@@ -109,7 +116,7 @@ class Model:
         Returns:
         None
         """
-        data_loader = self.get_data_loader(self.batch_size, self.vocab_threshold)
+        data_loader = self.get_data_loader(self.batch_size, self.vocab_threshold, self.vocab_saving_path)
 
         # The size of the vocabulary.
         vocab_size = len(data_loader.dataset.vocab)
@@ -203,3 +210,46 @@ class Model:
 
         # Close the training log file.
         f.close()
+
+
+
+
+
+def run_train(
+        batch_size: int = 128,         
+        vocab_threshold: int = 8,
+        embed_size: int = 256,
+        hidden_size: int = 512,
+        learning_rate: float = 0.001,
+        num_epochs: int = 2):
+    """
+    This function runs the training process for the CNN-RNN model for image captioning.
+
+    Parameters:
+    batch_size (int): The number of samples per batch
+    vocab_threshold (int): The minimum word count threshold
+    embed_size (int): The dimensionality of the image and word embeddings
+    hidden_size (int): The number of features in the hidden state of the RNN decoder
+    learning_rate (float): The learning rate for the Adam optimizer
+    connection (object): The connection to the process running
+
+    Returns:
+    None
+    """
+    model = Model(batch_size=batch_size, vocab_threshold=vocab_threshold, embed_size=embed_size, hidden_size=hidden_size, models_saving_directory=saving_directory, num_epochs=num_epochs)    
+    model.train(learning_rate)
+
+    # Save embid_size and hidden_size in config.yaml
+    config = {
+        'embed_size': embed_size,
+        'hidden_size': hidden_size,
+        'new_img_size': image_new_size
+    }
+    
+    with open(os.path.join(saving_directory, 'config.yaml'), 'w') as f:
+        yaml.dump(config, f)
+    
+
+    
+    
+    

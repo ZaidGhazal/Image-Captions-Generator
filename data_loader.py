@@ -11,7 +11,7 @@ import random
 import json
 
 def get_loader(transform,
-               vocab_file,
+               vocab_file='./models/vocab.pkl',
                mode='train',
                batch_size=1,
                vocab_threshold=None, 
