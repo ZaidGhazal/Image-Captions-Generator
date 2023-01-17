@@ -3,7 +3,7 @@ set -e
 ENV_PATH=$HOME/user_environments/coco_env
 BASEDIR=$(dirname "$0")
 REQUIERMENTS_PATH=$BASEDIR/requirements.txt
-MAIN_PATH=$BASEDIR/main.py
+MAIN_PATH=$BASEDIR/app.py
 echo $REQUIERMENTS_PATH
 if [ ! -d $ENV_PATH ]
 then
@@ -32,5 +32,6 @@ else
   echo "SUCESS: Dependencies Installed"
 fi
 echo "--> Running App..."
-python3 "$MAIN_PATH"
+cd "$BASEDIR"
+streamlit run "$MAIN_PATH"
 
