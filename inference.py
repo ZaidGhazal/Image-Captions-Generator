@@ -20,35 +20,6 @@ path_to_models = os.path.join(file_directory, "models")
 path_to_config = os.path.join(path_to_models, "config.yaml")
 # path_to_config = '"' + path_to_config + '"'
 
-# checking if the directory demo_folder 
-# exist or not.
-if not os.path.exists(path_to_models):
-    # if the demo_folder directory is not present 
-    # then create it.
-    os.makedirs(path_to_models)
-
-with open(path_to_config, "r") as stream:
-    try:
-        net_config = yaml.safe_load(stream)
-    except yaml.YAMLError as exc:
-        print(exc)
-
-embed_size = net_config["embed_size"]
-hidden_size = net_config["hidden_size"]
-new_img_size = net_config["new_img_size"]
-
-# Define a transform to pre-process the testing images.
-transform_test = transforms.Compose([ 
-    transforms.Resize((new_img_size,new_img_size)),                          # smaller edge of image resized to 256
-    transforms.ToTensor(),                           # convert the PIL Image to a tensor
-    transforms.Normalize((0.485, 0.456, 0.406),      # normalize image for pre-trained model
-                         (0.229, 0.224, 0.225))])
-
-
-# Load the vocab file
-vocab_file_path = os.path.join(path_to_models, "vocab.pkl")
-with open(vocab_file_path, "rb") as file:
-    vocab = pickle.load(file)
 
 
 
@@ -56,8 +27,38 @@ class Inference:
 
     def __init__(self):
         
+        # checking if the directory demo_folder 
+        # exist or not.
+        if not os.path.exists(path_to_models):
+            # if the demo_folder directory is not present 
+            # then create it.
+            os.makedirs(path_to_models)
+
+        with open(path_to_config, "r") as stream:
+            try:
+                net_config = yaml.safe_load(stream)
+            except yaml.YAMLError as exc:
+                print(exc)
+
+        embed_size = net_config["embed_size"]
+        hidden_size = net_config["hidden_size"]
+        new_img_size = net_config["new_img_size"]
+
+        # Define a transform to pre-process the testing images.
+        self.transform_test = transforms.Compose([ 
+            transforms.Resize((new_img_size,new_img_size)),                          # smaller edge of image resized to 256
+            transforms.ToTensor(),                           # convert the PIL Image to a tensor
+            transforms.Normalize((0.485, 0.456, 0.406),      # normalize image for pre-trained model
+                                (0.229, 0.224, 0.225))])
+
+
+        # Load the vocab file
+        vocab_file_path = os.path.join(path_to_models, "vocab.pkl")
+        with open(vocab_file_path, "rb") as file:
+            self.vocab = pickle.load(file)
+
         # The size of the vocabulary.
-        vocab_size = len(vocab)
+        vocab_size = len(self.vocab)
 
         # # Initialize the encoder and decoder, and set each to inference mode.
         encoder = EncoderCNN(embed_size)
@@ -76,49 +77,14 @@ class Inference:
         self.encoder = encoder
         self.decoder = decoder
 
-    @staticmethod
-    def clean_sentence(output):
+    def clean_sentence(self, output):
         sentence = ''
         for x in output:
-            sentence = sentence + ' ' + vocab.idx2word[x]
+            sentence = sentence + ' ' + self.vocab.idx2word[x]
             sentence = sentence.strip()
             sentence = sentence.replace("<start>", "")
             sentence = sentence.replace("<end>", "")
         return sentence
-
-    # def generate_caption(self, images_directory):
-    #     """
-    #     Generate a caption from the image.
-
-    #     parameters:
-    #     images_directory: 
-    #         The directory of the image to be captioned.
-    #     """
-    #     files = os.listdir(images_directory)
-
-    #     #Filtering only the files.
-    #     images_files = [f for f in files if os.path.isfile(os.path.join(images_directory, f))] 
-
-
-    #     # Read the image and convert to tensor
-    #     for image_file in images_files:
-    #     # Convert image to tensor and pre-process using transform
-    #         PIL_image = Image.open(os.path.join(images_directory, image_file)).convert('RGB')
-    #         orig_image = np.array(PIL_image)
-    #         image = transform_test(PIL_image)
-    #         image = image.reshape(1, 3, 224, 224)
-    #         # Move the model to GPU, if available.
-    #         image = image.to(device)
-    #         # Pass the image through the encoder.
-    #         features = self.encoder(image).unsqueeze(1)
-    #         # Pass the encoder output through the decoder.
-    #         output = self.decoder.sample(features)    
-    #         # clean captions from the <start> and 
-    #         # <end> tokens and return the result.
-    #         sentence = self.clean_sentence(output)
-    #         print("----> The caption for the image is:")
-    #         print(sentence)
-    #         break
 
     def generate_caption(self, images_path):
         """
@@ -132,7 +98,7 @@ class Inference:
         # Convert image to tensor and pre-process using transform
         PIL_image = Image.open(images_path).convert('RGB')
         orig_image = np.array(PIL_image)
-        image = transform_test(PIL_image)
+        image = self.transform_test(PIL_image)
         image = image.reshape(1, 3, 224, 224)
         # Move the model to GPU, if available.
         image = image.to(device)

@@ -246,7 +246,7 @@ def run_train(
     None
     """
     model = Model(batch_size=batch_size, vocab_threshold=vocab_threshold, embed_size=embed_size, hidden_size=hidden_size, models_saving_directory=saving_directory, num_epochs=num_epochs)    
-    # model.train(learning_rate)
+    model.train(learning_rate)
 
     # Save embid_size and hidden_size in config.yaml
     config = {
