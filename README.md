@@ -1,5 +1,5 @@
 # Image-Captions-Generator
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white) ![Anaconda](https://img.shields.io/badge/Anaconda-%2344A833.svg?style=for-the-badge&logo=anaconda&logoColor=white)![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white) ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white) ![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white) ![Anaconda](https://img.shields.io/badge/Anaconda-%2344A833.svg?style=for-the-badge&logo=anaconda&logoColor=white)![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)  ![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 # Introduction
 
@@ -14,11 +14,35 @@ In this project, scripts are provided to download data from the [COCO dataset](h
 | model\.py          | Includes the encoder CNN and decoder RNN definition                                                         | None                                                                     |   |   |   |   |   |   |   |
 | data\_loader\.py   | Includes the methods needed to load images as batches for training/testing                                  | TBD                                                                      |   |   |   |   |   |   |   |
 
-# How to Run
-- Install requirements/CONDA env
-- run the dataset download
-- Run the training script
-- Use inference.py to predict choosen images captions
+# Running the Generator
+
+There are 2 options to use the images cations generator:
+
+**Option 1:** Use the deployed app version in the link. Note that the deployed version supports genarating captions for the uploaded image(s) and download the results as CSV file. These captions are generated using a pre-trained model. Training new models is not supported on this version.
+
+**Option 2:** Clone/Download this repo files locally and run the app using the execuatable files. The one for macOS/Linux users is `run_macos.command`, or `run_windows.bat` for Windows. Using the local version, training a new model is available besids the captions generations as mentioned in option 1.
+
+Bellow provided the insturctions to run the app using both options.
+
+## Option 1: Using the Deployed App
+
+The deployed app can be accessed through the link. the following pictures illustrate the UI/UX:
+PIC
+
+## Option 2: Using the App Locally
+Alternatively, the repo files can be cloned/downloeded, and the app can be run using either files `run_macos.command` for macOS users, or `run_windows.bat` for Windows users. Images caption generation is available as in the deployed app. The extra features is the ability to train new model. This can be done by following these steps:
+
+1- First, download the COCO dataset (link). Download only the files marked in the bellow picture:
+PIC
+
+2- Download/Clone the repo files locally.
+PIC
+
+3- Create a new folder called `cocoapi` inside the downloaded/cloned repo local directory. Inside the created folder, also the `images` and `annotations` folders must be created.
+PIC
+4- After the COCO dataset files download is done, move the `train2017` and `test2017` folders into the created `images` folder (`cocoapi/images`). Also move the content of the downloaded annotations folder (for the train and test sets) into the created annotations folder (`cocoapi/annotations`).
+PIC
+5- Run the suitable execuatble file (`run_macos.command` OR `run_windows.bat`) to start the app.
 
 
 # Tech Description
