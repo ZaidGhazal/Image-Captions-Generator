@@ -2,7 +2,6 @@ import pickle
 import sys
 import os
 from model import EncoderCNN, DecoderRNN
-from pycocotools.coco import COCO
 from data_loader import get_loader
 from torchvision import transforms
 import torch
@@ -15,7 +14,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 # read the embed_size and hidden_size from config.yml
-file_directory = os.path.realpath(__file__).rsplit("/",1)[0]
+file_directory = os.path.realpath(__file__).rsplit("inference.py",1)[0]
 path_to_models = os.path.join(file_directory, "models")
 # path_to_models = '"' + path_to_models + '"' 
 path_to_config = os.path.join(path_to_models, "config.yaml")

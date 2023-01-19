@@ -1,7 +1,6 @@
 import time
 import pandas as pd
 import streamlit as st
-import streamlit.components.v1 as components
 from inference import run_inference
 from train import run_train
 from multiprocessing import Pipe, Pool, Process, cpu_count
@@ -15,9 +14,9 @@ def convert_df(df):
    return df.to_csv(index=False).encode('utf-8')
 
 def start_train_process(
-    batch_size, vocab_threshold, embed_size, hidden_size, learning_rate
+    batch_size, vocab_threshold, embed_size, hidden_size, learning_rate, num_epochs
 ):
-    train_process = Process(target=run_train, args=(batch_size, vocab_threshold, embed_size, hidden_size, learning_rate))
+    train_process = Process(target=run_train, args=(batch_size, vocab_threshold, embed_size, hidden_size, learning_rate, num_epochs))
     train_process.start()
     st.session_state['train_process'] = train_process
     st.session_state['train_pid'] = train_process.pid
@@ -72,6 +71,12 @@ def run_app():
                 3, 15, 8)
             st.write('Vocab Threshold:', vocab_threshold)
 
+            st.write("-----------")
+            num_epochs = st.number_input(
+                    '**Select Epochs Number**',
+                    1, 20, 1)
+            st.write('Training Epochs:', num_epochs)
+
         st.write("-----------")
         
         
@@ -80,10 +85,10 @@ def run_app():
                 if st.session_state.get('train_process').is_alive():
                         st.warning("Training is in progress!")   
                 else:
-                    start_train_process(batch_size, vocab_threshold, embed_size, hidden_size, learning_rate)
+                    start_train_process(batch_size, vocab_threshold, embed_size, hidden_size, learning_rate, num_epochs)
                     
             else:
-                start_train_process(batch_size, vocab_threshold, embed_size, hidden_size, learning_rate)
+                start_train_process(batch_size, vocab_threshold, embed_size, hidden_size, learning_rate, num_epochs)
         st.write("-------------")
 
         if st.session_state.get('train_process') is not None:

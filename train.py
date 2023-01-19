@@ -6,7 +6,6 @@ from data_loader import get_loader
 import sys
 import os
 import time
-from pycocotools.coco import COCO
 import nltk
 nltk.download('punkt')
 from data_loader import get_loader
@@ -17,6 +16,8 @@ import math
 from torch.optim import Adam
 import torch.utils.data as data
 import numpy as np
+import os
+
 
 
 
@@ -31,6 +32,13 @@ transform_train = transforms.Compose([
                          (0.229, 0.224, 0.225))])
 
 saving_directory = "./models"
+  
+# checking if the directory demo_folder 
+# exist or not.
+if not os.path.exists(saving_directory):
+    # if the demo_folder directory is not present 
+    # then create it.
+    os.makedirs(saving_directory)
 
 class Model:
     """
@@ -127,6 +135,7 @@ class Model:
 
         # Move models to GPU if CUDA is available. 
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print("-------> Trianing on:", device)
         encoder.to(device)
         decoder.to(device)
 
@@ -237,7 +246,7 @@ def run_train(
     None
     """
     model = Model(batch_size=batch_size, vocab_threshold=vocab_threshold, embed_size=embed_size, hidden_size=hidden_size, models_saving_directory=saving_directory, num_epochs=num_epochs)    
-    model.train(learning_rate)
+    # model.train(learning_rate)
 
     # Save embid_size and hidden_size in config.yaml
     config = {
@@ -248,8 +257,4 @@ def run_train(
     
     with open(os.path.join(saving_directory, 'config.yaml'), 'w') as f:
         yaml.dump(config, f)
-    
-
-    
-    
     
