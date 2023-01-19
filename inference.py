@@ -20,6 +20,13 @@ path_to_models = os.path.join(file_directory, "models")
 path_to_config = os.path.join(path_to_models, "config.yaml")
 # path_to_config = '"' + path_to_config + '"'
 
+# checking if the directory demo_folder 
+# exist or not.
+if not os.path.exists(path_to_models):
+    # if the demo_folder directory is not present 
+    # then create it.
+    os.makedirs(path_to_models)
+
 with open(path_to_config, "r") as stream:
     try:
         net_config = yaml.safe_load(stream)
