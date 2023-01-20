@@ -2,7 +2,7 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white) ![Anaconda](https://img.shields.io/badge/Anaconda-%2344A833.svg?style=for-the-badge&logo=anaconda&logoColor=white)![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white) ![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)  ![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 # Introduction
-<p style="text-align:justify;">
+<p align="justify">
 Inspired by the <a href="https://arxiv.org/pdf/1411.4555.pdf">Show and Tell: A Neural Image Caption Generator</a> paper, a neural network model was built and trained to extract features from the images and generate text captions. To facilitate model usage, a <strong>Web App</strong> was created and designed to allow users to upload image(s) to be captioned by the model. The captions generated can be downloaded in a CSV file including each image name and the generated caption. 
 
 Moreover, the app makes it possible for interested users to train new models (rather than the pre-trained one provided in this repo).
@@ -43,7 +43,7 @@ Alternatively, the repo files can be cloned/downloeded, and the app can be run u
 *Note: to use GPU for training, a pyTorch version supporting CUDA must be installed in the python environment created by running the execuatble file. see [PyTorch Download Page](https://pytorch.org) for the pip command*
 
 # Network Architecture
-<p style="text-align:justify;">
+<p align="justify"">
         The network architecture consists of two parts: The Encoder and Decoder.
         The Encoder consists of the pretrained ResNet-50 model layers (except the last fully connected linear layer) and an embedding linear layer used to get the extracted features vector and produce the embedding vector in a configurable size.
         ResNet-50 was chosen due to its power in classifying objects, which makes it excellent in extracting complex features through its convolutional network. 
