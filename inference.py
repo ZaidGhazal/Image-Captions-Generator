@@ -59,8 +59,8 @@ class Inference:
         
 
         # Load the trained weights.
-        encoder = torch.load(os.path.join(path_to_models, 'encoder.pkl'))
-        decoder = torch.load(os.path.join(path_to_models, 'decoder.pkl'))
+        encoder = torch.load(os.path.join(path_to_models, 'encoder.pkl'), map_location= torch.device(device))
+        decoder = torch.load(os.path.join(path_to_models, 'decoder.pkl'), map_location=torch.device(device))
         encoder.eval()
         decoder.eval()
         # Move models to GPU if CUDA is available.

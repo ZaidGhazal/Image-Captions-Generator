@@ -3,12 +3,13 @@ import torch.nn as nn
 import torchvision.models as models
 
 class EncoderCNN(nn.Module):
-    """This is a neural network architecture for an encoder module in a image captioning model, implemented using PyTorch's nn module. It has two main parts: a pre-trained ResNet-50 model and an embedding linear layer.
-The pre-trained ResNet-50 model (resnet) is a deep convolutional neural network trained on ImageNet dataset. 
-It is used to extract features from the input images. The parameters of this model are frozen, meaning they will not be updated during training.
-The embedding linear layer (self.embed) is used to project the features extracted by the ResNet-50 model to a lower-dimensional space of size embed_size.
-The input of this network is an image and the output is a lower-dimensional feature representation of the image.
-It uses the resnet50 pre-trained model to extract features, which is fine-tuned by the last linear layer for the specific task of image captioning.
+    """This is a neural network architecture for an encoder module in a image captioning model, implemented using PyTorch's nn module.
+    It has two main parts: a pre-trained ResNet-50 model and an embedding linear layer.
+    The pre-trained ResNet-50 model (resnet) is a deep convolutional neural network trained on ImageNet dataset. 
+    It is used to extract features from the input images. The parameters of this model are frozen, meaning they will not be updated during training.
+    The embedding linear layer (self.embed) is used to project the features extracted by the ResNet-50 model to a lower-dimensional space of size embed_size.
+    The input of this network is an image and the output is a lower-dimensional feature representation of the image.
+    It uses the resnet50 pre-trained model to extract features, which is fine-tuned by the last linear layer for the specific task of image captioning.
 """
     
     def __init__(self, embed_size):
