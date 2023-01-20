@@ -14,7 +14,7 @@ In this project, scripts are provided to download data from the [COCO dataset](h
 | model\.py          | Includes the encoder CNN and decoder RNN definition                                                         | None                                                                     |   |   |   |   |   |   |   |
 | data\_loader\.py   | Includes the methods needed to load images as batches for training/testing                                  | TBD                                                                      |   |   |   |   |   |   |   |
 
-# Running the Generator
+# Running the App
 
 There are 2 options to use the images cations generator:
 
@@ -26,22 +26,24 @@ Bellow provided the insturctions to run the app using both options.
 
 ## Option 1: Using the Deployed App
 
-The deployed app can be accessed through the link. the following pictures illustrate the UI/UX:
-PIC
+The deployed app can be accessed through the link.
+
 
 ## Option 2: Using the App Locally
 Alternatively, the repo files can be cloned/downloeded, and the app can be run using either files `run_macos.command` for macOS users, or `run_windows.bat` for Windows users. Images caption generation is available as in the deployed app. The extra features is the ability to train new model. This can be done by following these steps:
 
 1- First, download the COCO dataset (link). Download only the files marked in the bellow picture:
-PIC
+
 
 2- Download/Clone the repo files locally.
-PIC
+
 
 3- Create a new folder called `cocoapi` inside the downloaded/cloned repo local directory. Inside the created folder, also the `images` and `annotations` folders must be created.
-PIC
+
+
 4- After the COCO dataset files download is done, move the `train2017` and `test2017` folders into the created `images` folder (`cocoapi/images`). Also move the content of the downloaded annotations folder (for the train and test sets) into the created annotations folder (`cocoapi/annotations`).
-PIC
+
+
 5- Run the suitable execuatble file (`run_macos.command` OR `run_windows.bat`) to start the app.
 
 
