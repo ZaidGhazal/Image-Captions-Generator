@@ -52,7 +52,8 @@ def run_app():
         col2.image("./assets/architecture_img.png", use_column_width=True,
         caption="The Network Workflow: input image, encoder, decoder, and resulted caption")
 
-        home_body = """<p style="font-size: 20px; text-align:justify;">Inspired by <a href="https://arxiv.org/pdf/1411.4555.pdf">Show and Tell: A Neural Image Caption Generator</a> paper, a neural network was built and trained to extract features from the images and generate text sequence.
+        home_body = """<p style="font-size: 20px; text-align:justify;">Inspired by <a href="https://arxiv.org/pdf/1411.4555.pdf">Show and Tell: A Neural Image Caption Generator</a> paper, 
+        a neural network was built and trained to extract features from the images and generate text captions.
         The network architecture consists of two parts: The Encoder and Decoder.
         The Encoder consists of the pretrained ResNet-50 model layers (except the last fully connected linear layer) and an embedding linear layer used to get the extracted features vector and produce the embedding vector in a configurable size.
         ResNet-50 was chosen due to its power in classifying objects, which makes it excellent in extracting complex features through its convolutional network. 
