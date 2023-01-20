@@ -96,11 +96,11 @@ It also initializes hidden and cell states of LSTM to zero before passing the in
             
         return outputs
 
-    def sample(self, inputs, states=None, max_len=20):
+    def sample(self, inputs, hidden_size, states=None, max_len=20):
         output = []
         batch_size = inputs.shape[0]
-        hidden = (torch.randn(1, 1, 128).to(inputs.device),
-              torch.randn(1, 1, 128).to(inputs.device))
+        hidden = (torch.randn(1, 1, hidden_size).to(inputs.device),
+              torch.randn(1, 1, hidden_size).to(inputs.device))
 
         while True:
             lstm_out, hidden = self.lstm(inputs, hidden)

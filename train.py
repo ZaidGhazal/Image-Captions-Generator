@@ -212,10 +212,14 @@ class Model:
                 if i_step % self.print_every == 0:
                     print('\r' + stats)
                     
-            # Save the weights.
-            if epoch % self.save_every == 0:
-                torch.save(decoder.state_dict(), os.path.join(self.saving_directory, 'decoder.pkl' % epoch))
-                torch.save(encoder.state_dict(), os.path.join(self.saving_directory, 'encoder.pkl' % epoch))
+                # Save the weights.
+            # if epoch % self.save_every == 0:
+                if i_step % 10 == 0:
+                    torch.save(decoder, os.path.join(self.saving_directory, 'decoder.pkl'))
+                    torch.save(encoder, os.path.join(self.saving_directory, 'encoder.pkl'))
+
+                # torch.save(decoder.state_dict(), os.path.join(self.saving_directory, 'decoder.pkl'))
+                # torch.save(encoder.state_dict(), os.path.join(self.saving_directory, 'encoder.pkl'))
 
         # Close the training log file.
         f.close()

@@ -16,9 +16,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # read the embed_size and hidden_size from config.yml
 file_directory = os.path.realpath(__file__).rsplit("inference.py",1)[0]
 path_to_models = os.path.join(file_directory, "models")
-# path_to_models = '"' + path_to_models + '"' 
 path_to_config = os.path.join(path_to_models, "config.yaml")
-# path_to_config = '"' + path_to_config + '"'
 
 
 
@@ -40,9 +38,10 @@ class Inference:
             except yaml.YAMLError as exc:
                 print(exc)
 
-        embed_size = net_config["embed_size"]
         hidden_size = net_config["hidden_size"]
         new_img_size = net_config["new_img_size"]
+
+        self.hidden_size = hidden_size
 
         # Define a transform to pre-process the testing images.
         self.transform_test = transforms.Compose([ 
@@ -57,19 +56,13 @@ class Inference:
         with open(vocab_file_path, "rb") as file:
             self.vocab = pickle.load(file)
 
-        # The size of the vocabulary.
-        vocab_size = len(self.vocab)
-
-        # # Initialize the encoder and decoder, and set each to inference mode.
-        encoder = EncoderCNN(embed_size)
-        encoder.eval()
-        decoder = DecoderRNN(embed_size, hidden_size, vocab_size)
-        decoder.eval()
+        
 
         # Load the trained weights.
-        encoder.load_state_dict(torch.load(os.path.join(path_to_models, 'encoder.pkl')))
-        decoder.load_state_dict(torch.load(os.path.join(path_to_models, 'decoder.pkl')))
-
+        encoder = torch.load(os.path.join(path_to_models, 'encoder.pkl'))
+        decoder = torch.load(os.path.join(path_to_models, 'decoder.pkl'))
+        encoder.eval()
+        decoder.eval()
         # Move models to GPU if CUDA is available.
         encoder.to(device)
         decoder.to(device)
@@ -97,7 +90,6 @@ class Inference:
         # Read the image and convert to tensor
         # Convert image to tensor and pre-process using transform
         PIL_image = Image.open(images_path).convert('RGB')
-        orig_image = np.array(PIL_image)
         image = self.transform_test(PIL_image)
         image = image.reshape(1, 3, 224, 224)
         # Move the model to GPU, if available.
@@ -105,7 +97,7 @@ class Inference:
         # Pass the image through the encoder.
         features = self.encoder(image).unsqueeze(1)
         # Pass the encoder output through the decoder.
-        output = self.decoder.sample(features)    
+        output = self.decoder.sample(features, self.hidden_size)    
         # clean captions from the <start> and 
         # <end> tokens and return the result.
         sentence = self.clean_sentence(output)
