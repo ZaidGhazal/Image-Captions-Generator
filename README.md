@@ -32,7 +32,7 @@ The deployed app can be accessed through the link.
 ## Option 2: Using the App Locally
 Alternatively, the repo files can be cloned/downloeded, and the app can be run using either files `run_macos.command` for macOS users, or `run_windows.bat` for Windows users. Images caption generation is available as in the deployed app. The extra features is the ability to train new model. This can be done by following these steps:
 
-1- First, download the COCO dataset (link). Download only the files marked in the bellow picture:
+1- First, download the [COCO dataset]("https://cocodataset.org/#download"). Download only the files marked in the bellow picture:
 
 
 2- Download/Clone the repo files locally.
