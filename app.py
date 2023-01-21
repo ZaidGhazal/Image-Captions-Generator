@@ -7,15 +7,7 @@ import os
 import signal
 import base64
 from pathlib import Path
-st.set_page_config(layout="wide",
- menu_items={
-        'Get Help': 'https://jo.linkedin.com/in/zaid-ghazal',
-        'Report a bug': "https://github.com/ZaidGhazal/Image-Captions-Generator",
-        'About': """This app was done by **Zaid Ghazal**    
-        GitHub: https://github.com/ZaidGhazal/Image-Captions-Generator
-        LinkedIn: https://jo.linkedin.com/in/zaid-ghazal"""
-    }
-)
+
 
 @st.experimental_memo
 def convert_df(df):
@@ -31,11 +23,20 @@ def start_train_process(
     st.session_state['train_terminate'] = False
     st.info("Training Started!")
 
-def run_app():
-    st.title("🖺 Images Caption Generator")
+def run_app(disable_training=False):
+    st.set_page_config(layout="wide",
+        menu_items={
+                'Get Help': 'https://jo.linkedin.com/in/zaid-ghazal',
+                'Report a bug': "https://github.com/ZaidGhazal/Image-Captions-Generator",
+                'About': """This app was done by **Zaid Ghazal**    
+                GitHub: https://github.com/ZaidGhazal/Image-Captions-Generator
+                LinkedIn: https://jo.linkedin.com/in/zaid-ghazal"""
+            }
+        )
+    st.title("\U0001F5F3 Images Caption Generator")
 
 
-    tab1, tab2, tab3 = st.tabs(["**Home**", "**Generate Captions**", "**Train Model**"])
+    tab1, tab2, tab3 = st.tabs(["**\U0001F3E0 Home**", "**\U0001F4DD Generate Captions**", "**\U0001F9EE Train Model**"])
 
     with tab1:
         home_header = """<p style="font-size: 20px; text-align:justify;">
@@ -117,12 +118,18 @@ def run_app():
     
     with tab3:
         st.subheader("Train New Model with Specified Parameters")
+        if disable_training:
+            st.warning("""Training is disabled in the deployed app. To enable training, run the app locally.
+            To run the app locally, follow the instructions in 
+            [README](https://github.com/ZaidGhazal/Image-Captions-Generator#-running-the-app)""")
+            
         st.write("")
+        
         col1, col2 = st.columns(2)
         with col1:
             learning_rate  = st.selectbox(
                         '**Select the Learning Rate**',
-                        (0.0001, 0.001, 0.01))
+                        (0.0001, 0.001, 0.01),disabled=disable_training)
             st.write("Learning Rate: ", learning_rate)
             
             st.write("")
@@ -130,14 +137,14 @@ def run_app():
 
             batch_size = st.selectbox(
                         '**Select Batch Size**',
-                        (32, 64, 128, 256, 512))
+                        (32, 64, 128, 256, 512, 1024), disabled=disable_training)
             st.write('Batch Size:', batch_size)
             
             st.write("-------------")
             
             hidden_size = st.selectbox(
                         '**Select the RNN Hidden State Output Size**',
-                        (64, 128, 256, 512))
+                        (64, 128, 256, 512), disabled=disable_training)
             st.write('LSTM Hidden State Output Size:', hidden_size)
 
             
@@ -145,26 +152,26 @@ def run_app():
         with col2:
             embed_size = st.slider(
                         '**Select the Embedding Size**',
-                        100, 2500, 300)
+                        100, 2500, 300, disabled=disable_training)
             st.write('Embedding Size:', embed_size)
 
             st.write("-------------")
             
             vocab_threshold = st.number_input(
                 '**Select a Vocab Threshold**',
-                3, 15, 8)
+                3, 15, 8, disabled=disable_training)
             st.write('Vocab Threshold:', vocab_threshold)
 
             st.write("-----------")
             num_epochs = st.number_input(
                     '**Select Epochs Number**',
-                    1, 20, 1)
+                    1, 20, 1, disabled=disable_training)
             st.write('Training Epochs:', num_epochs)
 
         st.write("-----------")
         
-        
-        if st.button("Train Network Model"):
+       
+        if st.button("Train Network Model", disabled=disable_training):
             if st.session_state.get('train_process') is not None:
                 if st.session_state.get('train_process').is_alive():
                         st.warning("Training is in progress!")   
@@ -200,14 +207,4 @@ def run_app():
                             st.warning("Training is Stopped!")
                             print("Training was STOPED!", "Process Killed: ", st.session_state['train_pid'])
                             st.session_state['train_terminate'] = True
-                    
-
-                
-
-
-
-
-if __name__ == "__main__":
-    run_app()
-
 

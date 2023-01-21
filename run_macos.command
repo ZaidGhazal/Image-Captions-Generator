@@ -3,7 +3,7 @@ set -e
 ENV_PATH=$HOME/user_environments/coco_env
 BASEDIR=$(dirname "$0")
 REQUIERMENTS_PATH=$BASEDIR/requirements.txt
-MAIN_PATH=$BASEDIR/app.py
+MAIN_PATH=$BASEDIR/main.py
 echo $REQUIERMENTS_PATH
 if [ ! -d $ENV_PATH ]
 then
