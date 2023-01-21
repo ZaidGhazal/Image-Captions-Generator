@@ -33,5 +33,5 @@ else
 fi
 echo "--> Running App..."
 cd "$BASEDIR"
-streamlit run "$MAIN_PATH"
+streamlit run "$MAIN_PATH" -- --disable_training 0
 
