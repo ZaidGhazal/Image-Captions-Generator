@@ -3,7 +3,7 @@ import argparse
 
 # get cli parameters
 parser = argparse.ArgumentParser(description='')
-parser.add_argument('--disable_training', type=bool, default=False, required=False,
+parser.add_argument('--disable_training', type=bool, default=True, required=False,
                     help='Boolean, whether to diable training app or not')
 if __name__ == "__main__":
     args = parser.parse_args()
