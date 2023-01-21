@@ -1,13 +1,21 @@
-import time
 import pandas as pd
 import streamlit as st
 from inference import run_inference
 from train import run_train
-from multiprocessing import Pipe, Pool, Process, cpu_count
+from multiprocessing import  Process
 import os
 import signal
-
-st.set_page_config(layout="wide")
+import base64
+from pathlib import Path
+st.set_page_config(layout="wide",
+ menu_items={
+        'Get Help': 'https://jo.linkedin.com/in/zaid-ghazal',
+        'Report a bug': "https://github.com/ZaidGhazal/Image-Captions-Generator",
+        'About': """This app was done by **Zaid Ghazal**    
+        GitHub: https://github.com/ZaidGhazal/Image-Captions-Generator
+        LinkedIn: https://jo.linkedin.com/in/zaid-ghazal"""
+    }
+)
 
 @st.experimental_memo
 def convert_df(df):
@@ -24,8 +32,8 @@ def start_train_process(
     st.info("Training Started!")
 
 def run_app():
+    st.title("🖺 Images Caption Generator")
 
-    st.title("Images Caption Generator")
 
     tab1, tab2, tab3 = st.tabs(["**Home**", "**Generate Captions**", "**Train Model**"])
 
