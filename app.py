@@ -90,10 +90,10 @@ def run_app(disable_training=False):
         # read img in streamlit
         imgs_path = st.file_uploader("Upload an image", type=["jpg", "png", "svg"], accept_multiple_files=True)
         if st.button("Load Sample Images"):
-            # load images form local directory: trail_images
-            imgs_path = [Path("./trail_images").joinpath(img) for img in os.listdir("./trail_images")]
+            # load images form local directory: trial_images
+            imgs_path = [Path("./trial_images").joinpath(img) for img in os.listdir("./trial_images")]
             imgs_path = [open(img, "rb") for img in imgs_path]
-            
+
         if imgs_path != []:
             with st.spinner('Wait for it...'):
                 imgs_captions_list = run_inference(imgs_path)
@@ -104,21 +104,22 @@ def run_app(disable_training=False):
                 captions = [caption.strip()[:-1].strip() for _, caption in imgs_captions_list]
                 results_df = pd.DataFrame({"Image": imgs_names, "Caption": captions})
                 csv =  convert_df(results_df)
+
+                st.write("-------------")
+                st.markdown("<p style='text-align: center; font-size: 30px; font-weight: bold;'><u>Results</u></p>", unsafe_allow_html=True)
                 st.download_button(
-                    label="Download Results",
+                    label="Download CSV: Images-Captions",
                     data=csv,
                     file_name='images_captions.csv',
                     mime='text/csv'
                 )
-
-
                 col1, col2, col3 = st.columns(3)
                 with col2:
                 # with st.expander("**See Images/Captions**"):
                     for image, caption in imgs_captions_list:
                         
                         st.image(image, use_column_width=True)
-                        st.markdown("<p style='text-align: center; '>{}</p>".format(caption.strip()[:-1].strip().capitalize()), unsafe_allow_html=True)
+                        st.markdown("<p style='text-align: center; font-family: Gill Sans, serif; font-size: 18px'>{}</p>".format(caption.strip()[:-1].strip().capitalize()), unsafe_allow_html=True)
                         st.write("---------------")
     
     with tab3:
