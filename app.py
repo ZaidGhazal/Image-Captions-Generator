@@ -89,6 +89,11 @@ def run_app(disable_training=False):
         st.subheader("Upload Images to Generate Captions")
         # read img in streamlit
         imgs_path = st.file_uploader("Upload an image", type=["jpg", "png", "svg"], accept_multiple_files=True)
+        if st.button("Load Sample Images"):
+            # load images form local directory: trail_images
+            imgs_path = [Path("./trail_images").joinpath(img) for img in os.listdir("./trail_images")]
+            imgs_path = [open(img, "rb") for img in imgs_path]
+            
         if imgs_path != []:
             with st.spinner('Wait for it...'):
                 imgs_captions_list = run_inference(imgs_path)
