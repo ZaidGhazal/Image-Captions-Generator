@@ -88,7 +88,7 @@ def run_app(disable_training=False):
     with tab2:
         st.subheader("Upload Images to Generate Captions")
         # read img in streamlit
-        imgs_path = st.file_uploader("Upload an image", type=["jpg", "png", "svg"], accept_multiple_files=True)
+        imgs_path = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png", "svg"], accept_multiple_files=True)
         if st.button("Load Sample Images"):
             # load images form local directory: trial_images
             imgs_path = [Path("./trial_images").joinpath(img) for img in os.listdir("./trial_images")]
