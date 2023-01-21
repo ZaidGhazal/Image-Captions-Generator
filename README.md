@@ -50,7 +50,14 @@ Alternatively, the repo files can be cloned/downloaded, and the app can be run u
 
 5- Run the suitable executable file (`run_macos.command` OR `run_windows.bat`) to start the app.
 
-*Note: to use GPU for training, a PyTorch version supporting CUDA must be installed in the python environment created by running the executable file. see [PyTorch Download Page](https://pytorch.org) for the pip command*
+6- In the app, click on the `Train New Model` button to start training a new model. The training process may take a while depending on the machine's hardware. The trained model will be saved in the `models` folder. The trained model can be used to generate captions for new images.
+
+7- After the training is done, click on the `Generate Captions` button to generate captions for the uploaded images. The generated captions can be downloaded as a CSV file by clicking on the `Download Captions` button.
+
+
+*Note 1: the repo has the `models` folder containing pre-trained model files that can be used locally or through the deployed version. When a new model is trained locally, those files will be overwritten by the model files.*
+
+*Note 2: to use GPU for training, a PyTorch version supporting CUDA must be installed in the python environment created by running the executable file. see [PyTorch Download Page](https://pytorch.org) for the pip command.*
 
 # 🛕 Network Architecture
 <p align="justify"">
