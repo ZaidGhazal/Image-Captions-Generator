@@ -2,12 +2,10 @@ import pandas as pd
 import streamlit as st
 from inference import run_inference
 from train import run_train
-from multiprocessing import  Process
+from multiprocessing import  Pipe, Process
 import os
 import signal
-import base64
 from pathlib import Path
-
 
 @st.experimental_memo
 def convert_df(df):
@@ -16,11 +14,13 @@ def convert_df(df):
 def start_train_process(
     batch_size, vocab_threshold, embed_size, hidden_size, learning_rate, num_epochs
 ):
-    train_process = Process(target=run_train, args=(batch_size, vocab_threshold, embed_size, hidden_size, learning_rate, num_epochs))
+    conn1, conn2 = Pipe()
+    train_process = Process(target=run_train, args=(batch_size, vocab_threshold, embed_size, hidden_size, learning_rate, num_epochs, conn2))
     train_process.start()
     st.session_state['train_process'] = train_process
     st.session_state['train_pid'] = train_process.pid
     st.session_state['train_terminate'] = False
+    st.session_state['train_connection'] = conn1
     st.info("Training Started!")
 
 def run_app(disable_training=False):
@@ -193,15 +193,31 @@ def run_app(disable_training=False):
 
             with col2:
                 if st.button("Check Status"): 
-                    if st.session_state.get('train_process') is None:
+                    if st.session_state.get('train_connection') is not None:
+                        try:
+                            status_dict = st.session_state.get('train_connection').recv()
+                            if status_dict["status"] == "500":
+                                st.error(status_dict["msg"])
+                            else:
+                                st.info(status_dict["msg"])
+                        except:
+                            try:
+                                if status_dict.get("status") == "500":
+                                    st.error(status_dict.get("msg"))
+                                else:
+                                    st.info(status_dict.get("msg"))
+                            except:
+                                st.error("Training was Terminated. Please Train again.")
+                        
+                    elif st.session_state.get('train_process') is None:
                         st.warning("No Training is in progress!")
+                    
                     elif st.session_state.get('train_terminate'):
                         st.error("Training was Terminated. Please Train again.")
                     
                     elif not st.session_state.get("train_process").is_alive():
                             st.success("Training is Done!")
-                    else:
-                        st.info("Training is in progress...")      
+                         
 
             with col4:
                 if st.session_state.get('train_process').is_alive():

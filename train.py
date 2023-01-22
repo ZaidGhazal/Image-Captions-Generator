@@ -7,7 +7,7 @@ import sys
 import os
 import time
 import nltk
-nltk.download('punkt')
+import streamlit as st
 from data_loader import get_loader
 from torchvision import transforms
 import torch
@@ -17,6 +17,7 @@ from torch.optim import Adam
 import torch.utils.data as data
 import numpy as np
 import os
+nltk.download('punkt')
 
 
 
@@ -231,7 +232,9 @@ def run_train(
         embed_size: int = 256,
         hidden_size: int = 512,
         learning_rate: float = 0.001,
-        num_epochs: int = 2):
+        num_epochs: int = 2,
+        connection: Any = None
+        ):
     """
     This function runs the training process for the CNN-RNN model for image captioning.
 
@@ -246,8 +249,35 @@ def run_train(
     Returns:
     None
     """
+    conn_dict = {
+        "status":None,
+        "msg": ""
+    }
+
     model = Model(batch_size=batch_size, vocab_threshold=vocab_threshold, embed_size=embed_size, hidden_size=hidden_size, models_saving_directory=saving_directory, num_epochs=num_epochs)    
-    model.train(learning_rate)
+    try:
+        if connection:
+            conn_dict["status"] = "200"
+            conn_dict["msg"] = "Training is in progress..."
+            connection.send(conn_dict)
+        
+        model.train(learning_rate)
+
+        if connection:
+            conn_dict["status"] = "200"
+            conn_dict["msg"] = "Training done"
+            connection.send(conn_dict)
+
+    except Exception as e:
+        print(e)
+        if connection:
+            conn_dict["status"] = "500"
+            conn_dict["msg"] = f"Training failed: {e}"
+            connection.send(conn_dict)
+        return   
+    
+        # return "FileNotFoundError ERORR"
+        
 
     # Save embid_size and hidden_size in config.yaml
     config = {
