@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-ENV_PATH=$HOME/user_environments/coco_env
+ENV_PATH=$HOME/user_environments/image-caption-env
 BASEDIR=$(dirname "$0")
 REQUIERMENTS_PATH=$BASEDIR/requirements.txt
 MAIN_PATH=$BASEDIR/main.py
@@ -8,7 +8,7 @@ echo $REQUIERMENTS_PATH
 if [ ! -d $ENV_PATH ]
 then
 
-  echo "--> 1. Creating the Virtual Environment: my_env ..."
+  echo "--> 1. Creating the Virtual Environment: image-caption-env ..."
   python3 -m venv $ENV_PATH
   echo "SUCESS: Virtual Environment Created on: $ENV_PATH"
 
@@ -34,4 +34,3 @@ fi
 echo "--> Running App..."
 cd "$BASEDIR"
 streamlit run "$MAIN_PATH" -- --disable_training 0
-

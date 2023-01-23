@@ -134,6 +134,7 @@ def run_app(disable_training=False):
             
         st.write("")
         
+        
         col1, col2 = st.columns(2)
         with col1:
             learning_rate  = st.selectbox(
@@ -206,6 +207,10 @@ def run_app(disable_training=False):
                         st.success("Training is Finished Successfully")
                     elif status_value == 500:
                         st.error("An Error occurred. Please check the Terminal/Console for more info")
+                    elif status_value == 510:
+                        st.error("""
+                        Training/Testing data not found. Please follow the instructions in [README](https://github.com/ZaidGhazal/Image-Captions-Generator#option-2-using-the-app-locally)
+                        """)
                         
                     elif st.session_state.get('train_process') is None:
                         st.warning("No Training is in progress!")
@@ -213,7 +218,6 @@ def run_app(disable_training=False):
                     elif st.session_state.get('train_terminate'):
                         st.warning("Training was Terminated by the User")
                          
-
             with col4:
                 if st.session_state.get('train_process').is_alive():
                     if st.button("Stop Training"):

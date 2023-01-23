@@ -260,7 +260,10 @@ def run_train(
         if status:
             status.value = 210
     except Exception as e:
-        print(e)
+        print(type(e).__name__, e)
+        if type(e).__name__.strip() == "FileNotFoundError" and status:
+            status.value = 510
+            return
         if status:
             status.value = 500
         return   
