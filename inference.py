@@ -1,7 +1,7 @@
 import pickle
 import sys
 import os
-from model import EncoderCNN, DecoderRNN
+from model import ImageEncoder, TextDecoder
 from data_loader import get_loader
 from torchvision import transforms
 import torch

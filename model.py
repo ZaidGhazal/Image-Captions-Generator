@@ -2,30 +2,30 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
-class EncoderCNN(nn.Module):
+class ImageEncoder(nn.Module):
     """This is a neural network architecture for an encoder module in a image captioning model, implemented using PyTorch's nn module.
     It has two main parts: a pre-trained ResNet-50 model and an embedding linear layer.
     The pre-trained ResNet-50 model (resnet) is a deep convolutional neural network trained on ImageNet dataset. 
     It is used to extract features from the input images. The parameters of this model are frozen, meaning they will not be updated during training.
-    The embedding linear layer (self.embed) is used to project the features extracted by the ResNet-50 model to a lower-dimensional space of size embed_size.
+    The embedding linear layer (self.embedding_layer) is used to project the features extracted by the ResNet-50 model to a lower-dimensional space of size embed_size.
     The input of this network is an image and the output is a lower-dimensional feature representation of the image.
     It uses the resnet50 pre-trained model to extract features, which is fine-tuned by the last linear layer for the specific task of image captioning.
 """
     
     def __init__(self, embed_size):
-        super(EncoderCNN, self).__init__()
-        resnet = models.resnet50(pretrained=True)
+        super(ImageEncoder, self).__init__()
+        resnet = models.resnet101(pretrained=True)
         for param in resnet.parameters():
             param.requires_grad_(False)
         
         modules = list(resnet.children())[:-1]
         self.resnet = nn.Sequential(*modules)
-        self.embed = nn.Linear(resnet.fc.in_features, embed_size)
+        self.embedding_layer = nn.Linear(resnet.fc.in_features, embed_size)
 
     def forward(self, images):
         features = self.resnet(images)
         features = features.view(features.size(0), -1)
-        features = self.embed(features)
+        features = self.embedding_layer(features)
         return features
 
 
@@ -38,10 +38,10 @@ def weights_init(m):
     if isinstance(m, nn.Conv2d):
         torch.nn.init.xavier_uniform_(m.weight)
     
-class DecoderRNN(nn.Module):
+class TextDecoder(nn.Module):
     """This is a neural network architecture for a decoder module in an image captioning model, implemented using PyTorch's nn module. It has four main parts: an embedding layer, an LSTM layer, a fully connected output layer and a weight initialization function.
 
-The embedding layer (self.embed) is used to convert the input word indices to dense vectors of fixed size (embed_size).
+The embedding layer (self.embedding_layer) is used to convert the input word indices to dense vectors of fixed size (embed_size).
 The LSTM layer (self.lstm) is a type of recurrent neural network that is used for processing sequential data. It has hidden_size number of hidden states, dropout of 0.5 and num_layers number of layers.
 The fully connected output layer (self.fc_out) is used to generate the final output of the network, which has vocab_size number of outputs.
 The weights_init() function initializes the weights of the network.
@@ -52,7 +52,7 @@ It also has a device setup to perform the operations on either CPU or GPU, based
 It also initializes hidden and cell states of LSTM to zero before passing the input through LSTM layers.
 """
     def __init__(self, embed_size, hidden_size, vocab_size, num_layers=1):
-        super(DecoderRNN, self).__init__()
+        super(TextDecoder, self).__init__()
         
         # sizes of the model's blocks
         self.num_layers = num_layers
@@ -61,10 +61,10 @@ It also initializes hidden and cell states of LSTM to zero before passing the in
         self.vocab_size = vocab_size
         
         # embedding layer
-        self.embed = nn.Embedding(num_embeddings=self.vocab_size, embedding_dim=self.embed_size)
+        self.embedding_layer = nn.Embedding(num_embeddings=self.vocab_size, embedding_dim=self.embed_size)
         
         # lstm unit(s)
-        self.lstm = nn.LSTM(input_size=embed_size, hidden_size=hidden_size, batch_first = True, dropout = 0.5, num_layers = self.num_layers)
+        self.lstm = nn.LSTM(input_size=embed_size, hidden_size=hidden_size, batch_first = True, dropout = 0.35, num_layers = self.num_layers)
     
         # output fully connected layer
         self.fc_out = nn.Linear(in_features=self.hidden_size, out_features=self.vocab_size)
@@ -85,8 +85,8 @@ It also initializes hidden and cell states of LSTM to zero before passing the in
         self.hidden_state = torch.zeros((1, batch_size, self.hidden_size)).to(device)
         self.cell_state = torch.zeros((1, batch_size, self.hidden_size)).to(device)
 
-        # embed the captions
-        captions_embed = self.embed(captions)
+        # embedding_layer the captions
+        captions_embed = self.embedding_layer(captions)
         
         # pass through lstm unit(s)
         vals = torch.cat((features.unsqueeze(1), captions_embed), dim=1)
@@ -111,7 +111,7 @@ It also initializes hidden and cell states of LSTM to zero before passing the in
             output.append(max_pred_index.cpu().numpy()[0].item())
             if (max_pred_index == 1):
                 break
-            inputs = self.embed(max_pred_index)
+            inputs = self.embedding_layer(max_pred_index)
             inputs = inputs.unsqueeze(1)
             
         return output

@@ -1,7 +1,7 @@
 from typing import Any
 
 import yaml
-from model import EncoderCNN, DecoderRNN
+from model import ImageEncoder, TextDecoder
 from data_loader import get_loader
 import sys
 import os
@@ -131,8 +131,8 @@ class Model:
         vocab_size = len(data_loader.dataset.vocab)
 
         # Initialize the encoder and decoder. 
-        encoder = EncoderCNN(self.embed_size)
-        decoder = DecoderRNN(self.embed_size, self.hidden_size, vocab_size)
+        encoder = ImageEncoder(self.embed_size)
+        decoder = TextDecoder(self.embed_size, self.hidden_size, vocab_size)
 
         # Move models to GPU if CUDA is available. 
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
