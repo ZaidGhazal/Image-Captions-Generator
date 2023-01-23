@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 from inference import run_inference
 from train import run_train
-from multiprocessing import  Pipe, Process
+from multiprocessing import  Value, Process
 import os
 import signal
 from pathlib import Path
@@ -14,14 +14,15 @@ def convert_df(df):
 def start_train_process(
     batch_size, vocab_threshold, embed_size, hidden_size, learning_rate, num_epochs
 ):
-    conn1, conn2 = Pipe()
-    train_process = Process(target=run_train, args=(batch_size, vocab_threshold, embed_size, hidden_size, learning_rate, num_epochs, conn2))
+    status = Value("i", 0)
+    train_process = Process(target=run_train, args=(batch_size, vocab_threshold, embed_size,
+                            hidden_size, learning_rate, num_epochs, status))
     train_process.start()
     st.session_state['train_process'] = train_process
     st.session_state['train_pid'] = train_process.pid
     st.session_state['train_terminate'] = False
-    st.session_state['train_connection'] = conn1
-    st.info("Training Started!")
+    st.session_state['status'] = status
+    st.info("Started a New Training Process")
 
 def run_app(disable_training=False):
     st.set_page_config(layout="wide",
@@ -195,30 +196,22 @@ def run_app(disable_training=False):
 
             with col2:
                 if st.button("Check Status"): 
-                    if st.session_state.get('train_connection') is not None:
-                        try:
-                            status_dict = st.session_state.get('train_connection').recv()
-                            if status_dict["status"] == "500":
-                                st.error(status_dict["msg"])
-                            else:
-                                st.info(status_dict["msg"])
-                        except:
-                            try:
-                                if status_dict.get("status") == "500":
-                                    st.error(status_dict.get("msg"))
-                                else:
-                                    st.info(status_dict.get("msg"))
-                            except:
-                                st.error("Training was Terminated. Please Train again.")
+                    
+                    status_value = st.session_state.get('status').value
+                    if status_value == 0:
+                        st.info("Starting the Process...")
+                    if status_value == 200 and st.session_state.get("train_process").is_alive():
+                        st.info("Training in Progress...")
+                    elif status_value == 210:
+                        st.success("Training is Finished Successfully")
+                    elif status_value == 500:
+                        st.error("An Error occurred. Please check the Terminal/Console for more info")
                         
                     elif st.session_state.get('train_process') is None:
                         st.warning("No Training is in progress!")
                     
                     elif st.session_state.get('train_terminate'):
-                        st.error("Training was Terminated. Please Train again.")
-                    
-                    elif not st.session_state.get("train_process").is_alive():
-                            st.success("Training is Done!")
+                        st.warning("Training was Terminated by the User")
                          
 
             with col4:

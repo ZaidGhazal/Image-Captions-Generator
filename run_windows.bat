@@ -25,7 +25,7 @@ ECHO SUCESS: Dependencies Installed
 
 nvcc --version
 ECHO Running App....
-streamlit run app.py
+streamlit run main.py -- --disable_training 0
 
  
 
