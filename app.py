@@ -154,7 +154,7 @@ def run_app(disable_training=False):
             
             hidden_size = st.selectbox(
                         '**Select the RNN Hidden State Output Size**',
-                        (64, 128, 256, 512), disabled=disable_training)
+                        (64, 128, 256, 512, 1024), disabled=disable_training)
             st.write('LSTM Hidden State Output Size:', hidden_size)
 
             
