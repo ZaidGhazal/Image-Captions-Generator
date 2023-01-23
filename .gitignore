@@ -131,3 +131,5 @@ dmypy.json
 opt
 cocoapi
 training_log.txt
+
+.DS_Store

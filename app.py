@@ -86,12 +86,13 @@ def run_app(disable_training=False):
         st.write("----------")
         
     with tab2:
+        allowed_img_types = ["jpg", "jpeg", "png"]
         st.subheader("Upload Images to Generate Captions")
         # read img in streamlit
-        imgs_path = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png",], accept_multiple_files=True)
+        imgs_path = st.file_uploader("Upload an image", type=allowed_img_types, accept_multiple_files=True)
         if st.button("Load Sample Images"):
             # load images form local directory: trial_images
-            imgs_path = [Path("./trial_images").joinpath(img) for img in os.listdir("./trial_images")]
+            imgs_path = [Path("./trial_images").joinpath(img) for img in os.listdir("./trial_images") if img.split(".")[-1] in allowed_img_types]
             imgs_path = [open(img, "rb") for img in imgs_path]
 
         if imgs_path != []:
@@ -100,6 +101,7 @@ def run_app(disable_training=False):
                 
                 # Get list of images names
                 imgs_names = [path.name for path in imgs_path]
+                imgs_names
                 # Get list of catptions
                 captions = [caption.strip()[:-1].strip() for _, caption in imgs_captions_list]
                 results_df = pd.DataFrame({"Image": imgs_names, "Caption": captions})
