@@ -35,14 +35,20 @@ The deployed app can be accessed through the [Link](https://zaidghazal-image-cap
 ## Option 2: Using the App Locally
 Alternatively, the repo files can be cloned/downloaded, and the app can be run using either files `run_macos.command` for macOS users, or `run_windows.bat` for Windows users. Images caption generation is available as in the deployed app. The extra feature is the ability to train a new model. This can be done by following these steps:
 
-1- First, download the [COCO dataset]("https://cocodataset.org/#download"). Download only the files marked in green in the bellow picture:
+1- First, download the [COCO dataset](https://cocodataset.org/#download). Download only the files marked in green in the bellow picture:
 
 ![COCO Dataset Files](assets/coco_download.png)
 
-2- Download/Clone the repo files locally.
+2- Download/Clone the repo files locally. To do this step, eun the command:
+
+<code>git clone https://github.com/ZaidGhazal/Image-Captions-Generator.git</code>
 
 
-3- Create a new folder called `cocoapi` inside the downloaded/cloned repo local directory. Inside the created folder, also the `images` and `annotations` folders must be created.
+3- Create a new folder called `cocoapi` inside the downloaded/cloned repo local directory. Inside the created folder, also the `images` and `annotations` folders must be created. The two created folders should have the following paths:
+
+images folder path: <code><PATH_TO_REPO/cocoapi/images></code>
+annotations folder path: <code><PATH_TO_REPO/cocoapi/annotations></code>
+
 
 
 4- After the COCO dataset files download is done, move the `train2017` and `test2017` folders into the created `images` folder (`cocoapi/images`). Also, move the content of the downloaded annotations folder (for the train and test sets) into the created annotations folder (`cocoapi/annotations`).
