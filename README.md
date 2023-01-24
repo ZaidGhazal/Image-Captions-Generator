@@ -68,15 +68,15 @@ Alternatively, the repo files can be cloned/downloaded, and the app can be run u
         The Decoder has three main parts: an embedding layer, an LSTM layer, and a fully connected output layer.
         The embedding layer is used to convert the input word indices to dense vectors of fixed size. The LSTM layer is a type of recurrent neural network that is used for processing sequential data. It has a configurable number of hidden states and a configurable number of layers. The fully connected output layer is used to generate the final caption.
         <br><br>
-        The deployed model has trained on the <a href="https://cocodataset.org/#home">COCO-2017</a> dataset. The training process was done on a machine equipped with a GeForce RTX 2080 Ti GPU. Training time was around 3 hours and 30 minutes. Training configurable parameters were as follows:
+        The deployed model has trained on the <a href="https://cocodataset.org/#home">COCO-2017</a> dataset. The training process was done on a machine equipped with a GeForce RTX 2080 Ti GPU. Training time was around 9 hours and 30 minutes. Training configurable parameters were as follows:
         <br><br>
         <ul>
-        <li>Batch Size: 128</li>
+        <li>Batch Size: 256</li>
         <li>Vocabulary Threshold: 8</li>
-        <li>Embedding Size: 400</li>
-        <li>Hidden States Size: 356</li>
+        <li>Embedding Size: 300</li>
+        <li>Hidden States Size: 256</li>
         <li>Learning Rate: 0.001</li>
-        <li>Number of Epochs: 2</li>
+        <li>Number of Epochs: 5</li>
         </ul>
         </p>
 
