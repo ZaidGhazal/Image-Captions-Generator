@@ -39,7 +39,7 @@ class Inference:
                 print(exc)
 
         hidden_size = net_config["hidden_size"]
-        new_img_size = net_config["new_img_size"]
+        new_img_size = net_config["img_size"]
 
         self.hidden_size = hidden_size
 
