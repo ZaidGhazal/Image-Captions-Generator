@@ -278,7 +278,7 @@ def run_train(
         'batch_size': batch_size,
         'learning_rate': learning_rate,
         'epochs': num_epochs,
-        'training_time_minutes': training_time,
+        # 'training_time_minutes': training_time,
         'img_size': image_new_size
     }
     

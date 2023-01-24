@@ -71,15 +71,15 @@ def run_app(disable_training=False):
         The Decoder has three main parts: an embedding layer, an LSTM layer, and a fully connected output layer.
         The embedding layer is used to convert the input word indices to dense vectors of fixed size. The LSTM layer is a type of recurrent neural network that is used for processing sequential data. It has a configurable number of hidden states and a configurable number of layers. The fully connected output layer used to generate the final caption.
         <br><br>
-        The deployed model has trained on the <a href="https://cocodataset.org/#home">COCO-2017</a> dataset. The training process was done on a machine equipped with a GeForce RTX 2080 Ti GPU. Training time was around 3 hours and 30 minutes. Training configurable parameters were as follows:
+        The deployed model has trained on the <a href="https://cocodataset.org/#home">COCO-2017</a> dataset. The training process was done on a machine equipped with a GeForce RTX 2080 Ti GPU. Training time was around 9 hours and 30 minutes. Training configurable parameters were as follows:
         <br><br>
         <ul>
-        <li><strong>Batch Size:</strong> 128</li>
-        <li><strong>Vocabulary Threshold:</strong> 8</li>
-        <li><strong>Embedding Size:</strong> 400</li>
-        <li><strong>Hidden States Size:</strong> 356</li>
-        <li><strong>Learning Rate:</strong> 0.001</li>
-        <li><strong>Number of Epochs:</strong> 2</li>
+        <li><strong>Batch Size: </strong>256</li>
+        <li><strong>Vocabulary Threshold: </strong>8</li>
+        <li><strong>Embedding Size: </strong>300</li>
+        <li><strong>Hidden States Size: </strong>256</li>
+        <li><strong>Learning Rate: </strong>0.001</li>
+        <li><strong>Number of Epochs: </strong>5</li>
         </ul>
         </p>"""
 
