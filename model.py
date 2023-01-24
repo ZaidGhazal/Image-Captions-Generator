@@ -14,7 +14,7 @@ class ImageEncoder(nn.Module):
     
     def __init__(self, embed_size):
         super(ImageEncoder, self).__init__()
-        resnet = models.resnet101(pretrained=True)
+        resnet = models.resnet101(weights=models.ResNet101_Weights.DEFAULT)
         for param in resnet.parameters():
             param.requires_grad_(False)
         
