@@ -21,7 +21,7 @@ Moreover, the app makes it possible for interested users to train new models (ra
 
 There are 2 options to use the images cations generator:
 
-**Option 1:** Use the deployed app version in the [LINK](https://zaidghazal-image-captions-generator-main-c583ik.streamlit.app). Note that the deployed version supports generating captions for the uploaded image(s) and downloading the results as a CSV file. These captions are generated using a pre-trained model. Training new models is not supported in this version.
+**Option 1:** Use the deployed app version in the [Link](https://zaidghazal-image-captions-generator-main-c583ik.streamlit.app). Note that the deployed version supports generating captions for the uploaded image(s) and downloading the results as a CSV file. These captions are generated using a pre-trained model. Training new models is not supported in this version.
 
 **Option 2:** Clone/Download this repo file locally and run the app using the executable files. The one for macOS/Linux users is `run_macos.command`, or `run_windows.bat` for Windows. Using the local version, training a new model is available besides the captions generations as mentioned in option 1.
 
@@ -29,7 +29,7 @@ Bellow provided the instructions to run the app using both options.
 
 ## Option 1: Using the Deployed App
 
-The deployed app can be accessed through the [LINK](https://zaidghazal-image-captions-generator-main-c583ik.streamlit.app).
+The deployed app can be accessed through the [Link](https://zaidghazal-image-captions-generator-main-c583ik.streamlit.app).
 
 
 ## Option 2: Using the App Locally
