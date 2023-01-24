@@ -144,7 +144,7 @@ class Model:
         criterion = nn.CrossEntropyLoss().cuda() if torch.cuda.is_available() else nn.CrossEntropyLoss()
 
         # Specify the learnable parameters of the model.
-        parameters = list(decoder.parameters()) + list(encoder.embed.parameters())
+        parameters = list(decoder.parameters()) + list(encoder.embedding_layer.parameters())
 
         # Define the optimizer.
         optimizer = Adam(parameters, lr = learning_rate)
