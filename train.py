@@ -255,6 +255,7 @@ def run_train(
         if status:
             status.value = 200
 
+        start_time = time.time()
         model.train(learning_rate)
 
         if status:
@@ -268,12 +269,17 @@ def run_train(
             status.value = 500
         return   
             
-
-    # Save embid_size and hidden_size in config.yaml
+    training_time = np.round((time.time() - start_time)/60, 2)
+    # Save model configrations config.yaml
     config = {
+
         'embed_size': embed_size,
         'hidden_size': hidden_size,
-        'new_img_size': image_new_size
+        'batch_size': batch_size,
+        'learning_rate': learning_rate,
+        'epochs': num_epochs,
+        'training_time_minutes': training_time,
+        'img_size': image_new_size
     }
     
     with open(os.path.join(saving_directory, 'config.yaml'), 'w') as f:
