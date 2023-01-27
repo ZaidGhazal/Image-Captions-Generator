@@ -31,6 +31,25 @@ Bellow provided the instructions to run the app using both options.
 
 The deployed app can be accessed through the [Link](https://zaidghazal-image-captions-generator-main-c583ik.streamlit.app).
 
+The **Home Page** should appear:
+![Home Page Photo](assets/home_page.png)
+
+To move between pages, click on the desired tab:
+![Tabs Photo](assets/tabs.png)
+
+### Captions Generation Page
+To generate captions, just upload the desired image(s) using the **Browse files** button:
+
+![Captions Generation Page](assets/captions_generation_page.png)
+
+The generated captions will be displayed in the app. The captions can be downloaded as a CSV file by clicking on the **Download Captions** button.
+
+### Training Model Page
+The training model page is disabled in the deployed app. However, this page is activated when using the app locally (see instructions bellow).
+
+![Training Page Disabled](assets/train_model_disabled.png)
+
+
 
 ## Option 2: Using the App Locally
 Alternatively, the repo files can be cloned/downloaded, and the app can be run using either files `run_macos.command` for macOS users, or `run_windows.bat` for Windows users. Images caption generation is available as in the deployed app. The extra feature is the ability to train a new model. This can be done by following these steps:
@@ -46,24 +65,23 @@ Alternatively, the repo files can be cloned/downloaded, and the app can be run u
 
 3- Create a new folder called `cocoapi` inside the downloaded/cloned repo local directory. Inside the created folder, also the `images` and `annotations` folders must be created. The two created folders should have the following paths:
 
-images folder path: <code><PATH_TO_REPO/cocoapi/images></code>
-annotations folder path: <code><PATH_TO_REPO/cocoapi/annotations></code>
+> images folder path: <code><PATH_TO_REPO/cocoapi/images></code>
 
-
+> annotations folder path: <code><PATH_TO_REPO/cocoapi/annotations></code>
 
 4- After the COCO dataset files download is done, move the `train2017` and `test2017` folders into the created `images` folder (`cocoapi/images`). Also, move the content of the downloaded annotations folder (for the train and test sets) into the created annotations folder (`cocoapi/annotations`).
 
 
-5- Run the suitable executable file (`run_macos.command` OR `run_windows.bat`) to start the app.
+5- Run the suitable executable file (`run_macos.command` OR `run_windows.bat`) to start the app. You should have the same pages as described in [Option 1](##option_1:_using_the_deployed_app)
 
 6- In the app, click on the `Train New Model` button to start training a new model. The training process may take a while depending on the machine's hardware. The trained model will be saved in the `models` folder. The trained model can be used to generate captions for new images.
 
 7- After the training is done, click on the `Generate Captions` button to generate captions for the uploaded images. The generated captions can be downloaded as a CSV file by clicking on the `Download Captions` button.
 
 
-*Note 1: the repo has the `models` folder containing pre-trained model files that can be used locally or through the deployed version. When a new model is trained locally, those files will be overwritten by the model files.*
+> *Note 1: the repo has the `models` folder containing pre-trained model files that can be used locally or through the deployed version. When a new model is trained locally, those files will be overwritten by the model files.*
 
-*Note 2: to use GPU for training, a PyTorch version supporting CUDA must be installed in the python environment created by running the executable file. see [PyTorch Download Page](https://pytorch.org) for the pip command.*
+> *Note 2: to use GPU for training, a PyTorch version supporting CUDA must be installed in the python environment created by running the executable file. see [PyTorch Download Page](https://pytorch.org) for the pip command.*
 
 # 🛕 Network Architecture
 <p align="justify"">
