@@ -72,7 +72,7 @@ Alternatively, the repo files can be cloned/downloaded, and the app can be run u
 4- After the COCO dataset files download is done, move the `train2017` and `test2017` folders into the created `images` folder (`cocoapi/images`). Also, move the content of the downloaded annotations folder (for the train and test sets) into the created annotations folder (`cocoapi/annotations`).
 
 
-5- Run the suitable executable file (`run_macos.command` OR `run_windows.bat`) to start the app. You should have the same pages as described in [Option 1](##option_1:_using_the_deployed_app)
+5- Run the suitable executable file (`run_macos.command` OR `run_windows.bat`) to start the app. You should have the same pages as described in [Option 1](https://github.com/ZaidGhazal/Image-Captions-Generator/edit/main/README.md#option-1-using-the-deployed-app)
 
 6- In the app, click on the `Train New Model` button to start training a new model. The training process may take a while depending on the machine's hardware. The trained model will be saved in the `models` folder. The trained model can be used to generate captions for new images.
 
