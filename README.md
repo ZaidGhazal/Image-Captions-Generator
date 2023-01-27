@@ -35,6 +35,7 @@ The **Home Page** should appear:
 ![Home Page Photo](assets/home_page.png)
 
 To move between pages, click on the desired tab:
+
 ![Tabs Photo](assets/tabs.png)
 
 ### Captions Generation Page
