@@ -1,10 +1,10 @@
 # Image-Captions-Generator
 ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Streamlit](https://img.shields.io/badge/Streamlit-%23FF4B4B.svg?style=for-the-badge&logo=Streamlit&logoColor=white)
-![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white) 
+![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
 ![Pandas](https://img.shields.io/badge/pandas-%232fd6a4.svg?style=for-the-badge&logo=pandas&logoColor=white)
 ![tqdm](https://img.shields.io/badge/tqdm-%23f7f7f7.svg?style=for-the-badge&logo=tqdm&logoColor=blue)
-![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white) 
+![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white)
 ![NLTK](https://img.shields.io/badge/nltk-%2307b6fa.svg?style=for-the-badge&logo=nltk&logoColor=white)
 ![pycocotools](https://img.shields.io/badge/pycocotools-%233cbcd6.svg?style=for-the-badge&logo=pycocotools&logoColor=blue)
 
@@ -12,7 +12,7 @@
 
 # Introduction
 <p align="justify">
-Inspired by the <a href="https://arxiv.org/pdf/1411.4555.pdf">Show and Tell: A Neural Image Caption Generator</a> paper, a neural network model was built and trained to extract features from the images and generate text captions. To facilitate model usage, a <strong>Web App</strong> was created and designed to allow users to upload image(s) to be captioned by the model. The captions generated can be downloaded in a CSV file including each image name and the generated caption. 
+Inspired by the <a href="https://arxiv.org/pdf/1411.4555.pdf">Show and Tell: A Neural Image Caption Generator</a> paper, a neural network model was built and trained to extract features from the images and generate text captions. To facilitate model usage, a <strong>Web App</strong> was created and designed to allow users to upload image(s) to be captioned by the model. The captions generated can be downloaded in a CSV file including each image name and the generated caption.
 
 Moreover, the app makes it possible for interested users to train new models (rather than the pre-trained one provided in this repo).
 </p>
@@ -88,7 +88,7 @@ Alternatively, the repo files can be cloned/downloaded, and the app can be run u
 <p align="justify"">
         The network architecture consists of two parts: The Encoder and Decoder.
         The Encoder consists of the pre-trained ResNet-50 model layers (except the last fully connected linear layer) and an embedding linear layer used to get the extracted features vector and produce the embedding vector in a configurable size.
-        ResNet-50 was chosen due to its power in classifying objects, which makes it excellent in extracting complex features through its convolutional network. 
+        ResNet-50 was chosen due to its power in classifying objects, which makes it excellent in extracting complex features through its convolutional network.
         <br><br>
         The Decoder has three main parts: an embedding layer, an LSTM layer, and a fully connected output layer.
         The embedding layer is used to convert the input word indices to dense vectors of fixed size. The LSTM layer is a type of recurrent neural network that is used for processing sequential data. It has a configurable number of hidden states and a configurable number of layers. The fully connected output layer is used to generate the final caption.
@@ -121,10 +121,13 @@ The repo contains the following scripts and directories:
 - `./assets`: The directory contains the images used in this README file.
 
 
+## Acknowledgment
+--------------------
+Warm thanks 🙌 to [Ali Albustami](https://github.com/alibustami) for his collaboration in packaging the app files and doing the essential setup.
 
 ## 🌐 Socials:
 --------------------
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/zaid-ghazal/) 
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/zaid-ghazal/)
 
 ### ✍️ Random Dev Quote
 ![](https://quotes-github-readme.vercel.app/api?type=vetical&theme=tokyonight)
@@ -133,5 +136,3 @@ The repo contains the following scripts and directories:
 [![](https://visitcount.itsvg.in/api?id=ZaidGhazal&icon=0&color=0)](https://visitcount.itsvg.in)
 
 <!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
-
-
