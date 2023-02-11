@@ -102,6 +102,9 @@ The repo contains the following scripts and directories:
 - `./assets`: The directory contains the images used in this README file.
 
 
+## Acknowledgment
+--------------------
+Warm thanks 🙌 to [Ali Albustami](https://github.com/alibustami) for his collaboration in packaging the app files and doing the essential setup.
 
 ## 🌐 Socials:
 --------------------
