@@ -1,29 +1,43 @@
-import nltk
-import pickle
+"""This file contains the Vocabulary class which is used to convert tokens to integers and vice-versa."""
 import os.path
-from pycocotools.coco import COCO
+import pickle
 from collections import Counter
 
-class Vocabulary(object):
+import nltk
+from pycocotools.coco import COCO
 
-    def __init__(self,
+
+class Vocabulary(object):
+    """Simple vocabulary wrapper."""
+
+    def __init__(
+        self,
         vocab_threshold,
-        vocab_file='./models/vocab.pkl',
+        vocab_file="./models/vocab.pkl",
         start_word="<start>",
         end_word="<end>",
         unk_word="<unk>",
-        annotations_file='../cocoapi/annotations/captions_train2017.json',
-        vocab_from_file=False):
+        annotations_file="../cocoapi/annotations/captions_train2017.json",
+        vocab_from_file=False,
+    ):
         """Initialize the vocabulary.
-        Args:
-          vocab_threshold: Minimum word count threshold.
-          vocab_file: File containing the vocabulary.
-          start_word: Special word denoting sentence start.
-          end_word: Special word denoting sentence end.
-          unk_word: Special word denoting unknown words.
-          annotations_file: Path for train annotation file.
-          vocab_from_file: If False, create vocab from scratch & override any existing vocab_file
-                           If True, load vocab from from existing vocab_file, if it exists
+
+        Parameters
+        ----------
+        vocab_threshold : int
+            Minimum word count threshold.
+        vocab_file : str
+            Path for vocabulary wrapper.
+        start_word : str
+            Special word denoting sentence start.
+        end_word : str
+            Special word denoting sentence end.
+        unk_word : str
+            Special word denoting unknown words.
+        annotations_file : str
+            Path for train annotation json file.
+        vocab_from_file : bool
+            If True, load vocab wrapper from file.
         """
         self.vocab_threshold = vocab_threshold
         self.vocab_file = vocab_file
@@ -37,16 +51,16 @@ class Vocabulary(object):
     def get_vocab(self):
         """Load the vocabulary from file OR build the vocabulary from scratch."""
         if os.path.exists(self.vocab_file) & self.vocab_from_file:
-            with open(self.vocab_file, 'rb') as f:
+            with open(self.vocab_file, "rb") as f:
                 vocab = pickle.load(f)
                 self.word2idx = vocab.word2idx
                 self.idx2word = vocab.idx2word
-            print('Vocabulary successfully loaded from vocab.pkl file!')
+            print("Vocabulary successfully loaded from vocab.pkl file!")
         else:
             self.build_vocab()
-            with open(self.vocab_file, 'wb') as f:
+            with open(self.vocab_file, "wb") as f:
                 pickle.dump(self, f)
-        
+
     def build_vocab(self):
         """Populate the dictionaries for converting tokens to integers (and vice-versa)."""
         self.init_vocab()
@@ -62,7 +76,13 @@ class Vocabulary(object):
         self.idx = 0
 
     def add_word(self, word):
-        """Add a token to the vocabulary."""
+        """Add a token to the vocabulary.
+
+        Parameters
+        ----------
+        word : str
+            The token to be added to the vocabulary.
+        """
         if not word in self.word2idx:
             self.word2idx[word] = self.idx
             self.idx2word[self.idx] = word
@@ -74,7 +94,7 @@ class Vocabulary(object):
         counter = Counter()
         ids = coco.anns.keys()
         for i, id in enumerate(ids):
-            caption = str(coco.anns[id]['caption'])
+            caption = str(coco.anns[id]["caption"])
             tokens = nltk.tokenize.word_tokenize(caption.lower())
             counter.update(tokens)
 
@@ -87,9 +107,28 @@ class Vocabulary(object):
             self.add_word(word)
 
     def __call__(self, word):
+        """Converts a token to its integer representation.
+
+        Parameters
+        ----------
+        word : str
+            The token to be converted to an integer.
+
+        Returns
+        -------
+        int
+            The integer representation of the token.
+        """
         if not word in self.word2idx:
             return self.word2idx[self.unk_word]
         return self.word2idx[word]
 
     def __len__(self):
+        """Returns the length of the vocabulary.
+
+        Returns
+        -------
+        int
+            The length of the vocabulary.
+        """
         return len(self.word2idx)

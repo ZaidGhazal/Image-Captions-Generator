@@ -1,0 +1,5 @@
+[flake8]
+max-line-length=87
+max-complexity=22
+docstrings-convention=numpy
+ignore = E203, E266, E501, W503, F401, W291, D104, D401, D412, E712, E713

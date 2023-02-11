@@ -27,7 +27,7 @@ nvcc --version
 ECHO Running App....
 streamlit run main.py -- --disable_training 0
 
- 
+
 
 :error
 echo Failed with error.
