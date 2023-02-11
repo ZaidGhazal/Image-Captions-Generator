@@ -16,7 +16,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 # read the embed_size and hidden_size from config.yml
-file_directory = os.path.realpath(__file__).rsplit("inference.py", 1)[0]
+# file_directory = os.path.realpath(__file__).rsplit("inference.py", 1)[0]
+file_directory = "./"
+
 path_to_models = os.path.join(file_directory, "models")
 path_to_config = os.path.join(path_to_models, "config.yaml")
 
